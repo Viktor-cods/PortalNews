@@ -1,0 +1,50 @@
+﻿1 python manage.py shell
+2 from news.models import *
+3 u1=User.objects.create_user(username='Петр')
+4 u2=User.objects.create_user(username='Василий')
+5 Author.objects.create(authorUser=u1)
+6 Author.objects.create(authorUser=u2)
+7 Category.objects.create(name='Sport')
+8 Category.objects.create(name='Politish')
+9 Category.objects.create(name='Economy')
+10 Category.objects.create(name='Culture')
+11 author=Author.objects.get(id=1)
+12 author
+13 Post.objects.create(author=author,categoryType='NW',title='ПСЖ снова в деле',text='Один из известнейших французских клубов победил в гостевом матче 5-0')
+14 Post.objects.create(author=author,categoryType='AR',title='Курс доллара',text='Валюта достаточно быстро растет и это грядет к переменам')
+15 Post.objects.create(author=author,categoryType='AR',title='Польша наращивает силы',text='Польские войска скапливаются у границы Бел.')
+16 Post.objects.get(id=1).PostCategory.add(Category.objects.get(id=1))
+17 Post.objects.get(id=2).PostCategory.add(Category.objects.get(id=2))
+18 Post.objects.get(id=3).PostCategory.add(Category.objects.get(id=3))
+19 Post.objects.get(id=4).PostCategory.add(Category.objects.get(id=4))
+20 Comment.objects.create(commentPost=Post.objects.get(id=1),commentUser=Author.objects.get(id=1).authorUser,text='отличная статья,рекомендую!')
+21 Comment.objects.create(commentPost=Post.objects.get(id=2),commentUser=Author.objects.get(id=2).authorUser,text='великолепно написано,автор молодец.')
+22 Comment.objects.create(commentPost=Post.objects.get(id=3),commentUser=Author.objects.get(id=3).authorUser,text='неплохо написано!')
+23 Comment.objects.create(commentPost=Post.objects.get(id=3),commentUser=Author.objects.get(id=3).authorUser,text='написано слобовато.дизлайк однозначно!')
+24 Comment.objects.get(id=1).like()
+25 Comment.objects.get(id=2).like()
+26 Comment.objects.get(id=3).like()
+27 Comment.objects.get(id=3).dislike()
+28 Author.objects.get(id=1)
+29 a.update_rating()
+30 a.ratingAuthor
+31 a=Author.objects.order_by('-ratingAuthor')[:1]
+32 for i in a:
+       i.ratingAuthor
+       i.authorUser.username
+
+
+
+
+       <a class="nav-link" href="{% url 'n_index' n.id %}">
+     def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = PostFilter(self.request.GET, queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        context['time_now'] = datetime.utcnow()
+        return context
+    <td>{{ n.postCategory|censor }}</td>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News</title>
+</head>
+<body>
+{% for new in news %}
+<p>{{ new.title }}  </p>
+<p>{{ new.text|truncatewords:20}}</p>
+<td>{{ new.date }}</td>
+<a href="{{ new.get_absolute_url }}">News url</a>
+{% endfor %}
+{% block title %}
+{% endblock %}
+</body>
+</html>
+
+
