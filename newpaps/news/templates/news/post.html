@@ -1,14 +1,14 @@
-{% extends 'news/index.html' %}
+{% extends 'index.html' %}
 
-{% load custom_filters %}
-{% load custom_tags %}
+{% load custom_filter %}
+
 
 {% block title %}
-Products
+Post
 {% endblock title %}
 
 {% block content %}
-    <h1>Все товары</h1>
+    <h1>Все новости</h1>
 
     <form action="" method="get">
         {{ filterset.form.as_p }}
@@ -18,21 +18,21 @@ Products
     <hr>
 
     {# Теперь будем проверять не request.user.is_authenticated, а конкретные права #}
-    {% if perms.news.add_post %}
-    <a href="{% url 'product_create' %}">Добавить товар</a>
+    {% if perms.post.add_post %}
+    <a href="{% url 'post_create' %}">Добавить новость</a>
     {% endif %}
 
     {% if post %}
         <table>
             <tr>
-                <td>Название</td>
-                <td>Описание</td>
+                <td>Заголовок</td>
                 <td>Категория</td>
-                <td>Цена</td>
-                <td>Количество</td>
+                <td>Текст</td>
+                <td>Дата публикации</td>
+
 
                 {# Условие получается составным. #}
-                {% if perms.news.change_post or perms.news.delete_post %}
+                {% if perms.post.change_post or perms.post.delete_post %}
                 <td>Действия</td>
                 {% endif %}
 
@@ -40,18 +40,17 @@ Products
 
             {% for pos in post %}
             <tr>
-                <td>{{ pos.name }}</td>
-                <td>{{ pos.description|truncatechars:15 }}</td>
-                <td>{{ pos.category.name }}</td>
-                <td>{{ pos.price|currency }}</td>
-                <td>{{ pos.quantity }}</td>
+                <td>{{ pos.title }}</td>
+                <td>{{ pos.categoryType }}</td>
+                <td>{{ pos.text|truncatechars:15 }}</td>
+                <td>{{ pos.quantity.dateCreation }}</td>
 
                 <td>
                     {# А здесь доступ для каждой ссылки теперь будем проверять отдельно #}
-                    {% if perms.news.change_post %}
+                    {% if perms.post.change_post %}
                     <a href="{% url 'post_update' pk=post.id %}">Изменить</a>
                     {% endif %}
-                    {% if perms.news.delete_post %}
+                    {% if perms.post.delete_post %}
                     <a href="{% url 'post_delete' post.id %}">Удалить</a>
                     {% endif %}
                 </td>
@@ -61,7 +60,7 @@ Products
 
         </table>
     {% else %}
-        <h2>Товаров нет!</h2>
+        <h2>Новостей нет!</h2>
     {% endif %}
 
     {% if page_obj.has_previous %}
