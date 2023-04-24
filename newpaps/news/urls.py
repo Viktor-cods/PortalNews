@@ -3,6 +3,9 @@ from django.urls import path,include
 from .views import *
 
 
+from .views import IndexView
+
+
 urlpatterns = [
     path('news_list/',index,name='index'),
     path('new/<str:slug>',default,name='default'),
@@ -14,5 +17,7 @@ urlpatterns = [
     path('subscriptions/',subscriptions,name='subscriptions'),
     path('categories/<int:pk>',CategoryListView.as_view(),name='category_list'),
     path('categories/<int:pk>/subscribe',subscribe,name='subscribe'),
+
+    path('', IndexView.as_view()),
 ]
 

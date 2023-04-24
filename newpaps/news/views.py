@@ -15,6 +15,19 @@ from datetime import datetime
 from django.core.mail import send_mail
 
 
+
+from django.http import HttpResponse
+from django.views import View
+from .tasks import hello
+from datetime import datetime, timedelta
+
+class IndexView(View):
+    def get(self, request):
+        printer.apply_async([10],
+                            eta = datetime.now() + timedelta(seconds=5))
+        hello.delay()
+        return HttpResponse('Hello!')
+
 @login_required
 @csrf_protect
 def subscriptions(request):
