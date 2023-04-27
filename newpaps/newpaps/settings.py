@@ -180,10 +180,8 @@ APSCHEDULER_DATETIME_FORMAT='N,j,Y,f:s a'
 APSCHEDULER_RUN_NON_TIMEOUT=25
 
 
-CELERY_BROKER_URL = f'redis://default:tdjnLbXFaYqh3YEWhxgx7wWcUbTibBuB'\
-                    f'redis-15845.c302.asia-northeast1-1.gce.cloud.redislabs.com:15845'
-CELERY_RESULT_BACKEND = f'redis://default:tdjnLbXFaYqh3YEWhxgx7wWcUbTibBuB'\
-                        f'redis-15845.c302.asia-northeast1-1.gce.cloud.redislabs.com:15845'
+CELERY_BROKER_URL = f'redis://default:tdjnLbXFaYqh3YEWhxgx7wWcUbTibBuB@redis-15845.c302.asia-northeast1-1.gce.cloud.redislabs.com:15845'
+CELERY_RESULT_BACKEND = f'redis://default:tdjnLbXFaYqh3YEWhxgx7wWcUbTibBuB@redis-15845.c302.asia-northeast1-1.gce.cloud.redislabs.com:15845'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
