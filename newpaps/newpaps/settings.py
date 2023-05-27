@@ -185,3 +185,99 @@ CELERY_RESULT_BACKEND = f'redis://default:tdjnLbXFaYqh3YEWhxgx7wWcUbTibBuB@redis
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+        'TIMEOUT': 60,
+    }
+}
+
+LOGGING={
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'main_format': {
+            'format': ' {asctime} - {levelname} - {module} - {filename} - {message}',
+            'style': '{',
+        },
+        'gen_format': {
+            'format': '{asctime} - {levelname} - {module} - {message}',
+            'style': '{',
+        },
+        'eror_format': {
+            'format': '{asctime} - {levelname} - {message}',
+            'style': '{',
+        },
+        'sec_format':{
+            'format': '{asctime} - {levelname} - {module} - {message}',
+            'style': '{',
+        },
+    },
+    'handler':{
+         'console':{
+             'level': 'DEBUG',
+             'filter':['require_debug_true'],
+             'class': 'logging.StreanHandler',
+             'formatter':'main_format',
+         },
+        'new':{
+            'level': 'INFO',
+            'class':'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'gen_format',
+        },
+
+        'mail_admins':{
+            'level':'ERROR',
+            'class':'django.utils.log.AdminEmailHandler',
+            'filename': 'errors.log',
+            'formatter': 'error_format',
+        },
+        'security':{
+            'level':'DEBUG',
+            'class':'django.utils.log.AdminEmailHandler',
+            'filename': 'errors.log',
+            'formatter': 'sec_format',
+        },
+    },
+    'logger':{
+        'django':{
+            'handlers':['new',],
+            'level':'INFO',
+        },
+        'django.request':{
+            'handlers':['mail_admins',],
+            'level':'ERROR',
+            'propagate':False,
+        },
+        'django.server':{
+            'handlers':['mail_admins',],
+            'level':'ERROR',
+            'propagate':False,
+        },
+        'django.template':{
+            'handlers':['mail_admins',],
+            'level':'ERROR',
+            'propagate':False,
+        },
+        'django.db.backends':{
+            'handlers':['mail_admins',],
+            'level':'ERROR',
+            'propagate':False,
+        },
+        'django.security':{
+            'handlers':['security',],
+            'level':'ERROR',
+            'propagate':False,
+        },
+    },
+    'filters':{
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+            },
+
+        },
+}
